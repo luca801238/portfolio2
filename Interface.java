@@ -27,7 +27,7 @@ public class Interface {
         }
     }
 
-    public List<Boek> getBoeken() {
-        return boeken;
+    public void getBoeken() {
+        System.out.println(boeken);
     }
 }

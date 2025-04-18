@@ -2,16 +2,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Aanbevelingen {
-    private List<String> voorkeuren = new ArrayList<>();
+    private List<String> voorkeuren = new ArrayList<>(); // Hier worden de voorkeuren opgeslagen
     private List<String> likes = new ArrayList<>();
     private List<Boek> alleBoeken = new ArrayList<>();
 
     public Aanbevelingen() {
         // Voorbeeldboeken met genre toegevoegd
-        alleBoeken.add(new Boek("Dune", null, "Sciencefiction"));
-        alleBoeken.add(new Boek("Foundation", null, "Sciencefiction"));
-        alleBoeken.add(new Boek("Pride and Prejudice", null, "Romantiek"));
-        alleBoeken.add(new Boek("The Hobbit", null, "Fantasy"));
+        alleBoeken.add(new Boek("Dune", "2025-04-01", "Sciencefiction"));
+        alleBoeken.add(new Boek("Foundation", "2025-04-01", "Sciencefiction"));
+        alleBoeken.add(new Boek("Pride and Prejudice", "2025-04-01", "Romantiek"));
+        alleBoeken.add(new Boek("The Hobbit", "2025-04-01", "Fantasy"));
     }
 
     // 6. Genereer aanbevelingen op basis van eerder gelezen boeken
@@ -57,13 +57,7 @@ public class Aanbevelingen {
     }
 
     // 9. Voorkeuren ophalen
-    public List<Boek> haalVoorkeurenOp() {
-        List<Boek> aanbevelingen = new ArrayList<>();
-        for (Boek boek : alleBoeken) {
-            if (voorkeuren.contains(boek.getGenre())) {
-                aanbevelingen.add(boek);
-            }
-        }
-        return aanbevelingen;
+    public void haalVoorkeurenOp() {
+        System.out.println(voorkeuren);
     }
 }
