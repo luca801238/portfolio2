@@ -1,17 +1,22 @@
-import java.util.Date;
-
-public class Tijdschrift extends Boek {
+public class Tijdschrift extends Item {
     private String editie;
-    private Date datum;
 
-    public Tijdschrift(String titel, String genre, String auteur, int aantalPaginas, String editie, Date datum) {
-        super(titel, genre, auteur, aantalPaginas);
+    public Tijdschrift(String titel, String editie, String gelezenOp) {
+        super(titel, gelezenOp);
         this.editie = editie;
-        this.datum = datum;
+    }
+
+    public String getEditie() {
+        return editie;
     }
 
     @Override
-    public String toonDetails() {
-        return super.toonDetails() + ", Editie: " + editie + ", Datum: " + datum.toString();
+    public String getType() {
+        return "Tijdschrift";
+    }
+
+    @Override
+    public String toString() {
+        return getTitel() + " (editie: " + editie + ") - Gelezen op: " + getGelezenOp();
     }
 }
