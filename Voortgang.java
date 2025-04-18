@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class VoortgangService {
+public class Voortgang {
     private List<Boek> gelezenBoeken = new ArrayList<>();
 
     // 16. Voer aantal gelezen pagina’s in

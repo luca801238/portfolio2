@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class LeesgeschiedenisService {
+public class Leesoverzicht {
     private List<Item> gelezenItems = new ArrayList<>();
 
     // 10. Markeer als gelezen

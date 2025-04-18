@@ -1,12 +1,12 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class AanbevelingService {
+public class Aanbevelingen {
     private List<String> voorkeuren = new ArrayList<>();
     private List<String> likes = new ArrayList<>();
     private List<Boek> alleBoeken = new ArrayList<>();
 
-    public AanbevelingService() {
+    public Aanbevelingen() {
         // Voorbeeldboeken met genre toegevoegd
         alleBoeken.add(new Boek("Dune", null, "Sciencefiction"));
         alleBoeken.add(new Boek("Foundation", null, "Sciencefiction"));
@@ -43,7 +43,7 @@ public class AanbevelingService {
         if (!likes.contains(boek.getGenre())) {
             likes.add(boek.getGenre());
         }
-        System.out.println("Je hebt \"" + boek.getTitel() + "\" geliked.");
+        System.out.println("Je hebt " + boek.getTitel() + " geliked.");
     }
 
     // 8. Voorkeur aanpassen

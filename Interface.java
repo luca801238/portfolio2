@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class InterfaceService {
+public class Interface {
     private List<Boek> boeken = new ArrayList<>();
 
     // 13. Berekent voortgang als percentage
