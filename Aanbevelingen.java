@@ -1,6 +1,10 @@
 import java.util.ArrayList;
 import java.util.List;
 
+// Associatie: Aanbevelingen <-> Boek (via methodes en parameters)
+// Zonder deze associatie kan er geen aanbeveling gegenereerd worden die aansluit op de voorkeuren en leesgeschiedenis van de gebruiker.
+
+
 public class Aanbevelingen {
     private List<String> voorkeuren = new ArrayList<>(); // Wordt gebruikt om aanbevelingen te filteren op genres die de gebruiker interessant vindt.
     private List<String> likes = new ArrayList<>(); // Likes geven voorkeuren aan, wat toekomstige aanbevelingen kan beïnvloeden.

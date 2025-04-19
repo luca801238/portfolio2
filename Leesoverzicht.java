@@ -1,6 +1,11 @@
 import java.util.ArrayList;
 import java.util.List;
 
+// Associatie: Leesoverzicht <-> Item (Boek en Tijdschrift)
+// Zonder deze associatie is het niet mogelijk om te registreren wat een gebruiker gelezen heeft, of dit op te vragen en filteren.
+
+
+
 public class Leesoverzicht {
     private List<Item> gelezenItems = new ArrayList<>(); // // Lijst van items die de gebruiker heeft gelezen
 

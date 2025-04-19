@@ -1,6 +1,10 @@
 import java.util.ArrayList;
 import java.util.List;
 
+// Associatie: Interface <-> Boek
+// Deze associatie is nodig om boeken aan de bibliotheek van de gebruiker toe te voegen en te gebruiken voor verdere interacties.
+
+
 public class Interface {
     private List<Boek> boeken = new ArrayList<>(); // // Lijst van boeken die de gebruiker heeft toegevoegd.
 

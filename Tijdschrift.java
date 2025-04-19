@@ -1,3 +1,8 @@
+
+// Associatie: Tijdschrift is een subtype van Item
+// User Story: Als gebruiker wil ik eenvoudig bijhouden welke boeken en tijdschriften ik heb gelezen zodat ik een overzicht heb van mijn leesgeschiedenis.
+// Deze associatie maakt polymorfisme mogelijk binnen het leesoverzicht, zodat het werkt voor meerdere soorten leesmateriaal.
+
 public class Tijdschrift extends Item {
     private String editie; // editie van tijdschrift
 

@@ -1,5 +1,16 @@
 import java.util.*;
 
+// associaties:
+// Aanbevelingen <-> Boek           aanbevelingen genereren op basis van gelezen boeken/voorkeuren
+// Interface <-> Boek               boeken toevoegen en beheren
+// Leesoverzicht <-> Item           leesgeschiedenis bijhouden
+// Voortgang <-> Boek               voortgang meten van gelezen boeken
+// Tijdschrift <-> Item             polymorfisme voor leesmateriaal
+
+// Al deze associaties zijn essentieel om de user stories volledig te ondersteunen.
+// Zonder deze koppelingen zou de functionaliteit onvolledig of onbruikbaar zijn.
+
+
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);

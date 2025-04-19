@@ -1,3 +1,7 @@
+// Associatie: Item <-> subklassen (boek, tijdschrift), leesoverzicht <-> item
+// User Story: Als gebruiker wil ik eenvoudig bijhouden welke boeken en tijdschriften ik heb gelezen zodat ik een overzicht heb van mijn leesgeschiedenis.
+// Zonder deze associatie kan het systeem niet op een juiste manier bijhouden wat de gebruiker heeft gelezen, of daar later op filteren.
+
 public class Item {
     private String titel; // titel
     private String gelezenOp; // gelezen op

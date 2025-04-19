@@ -1,6 +1,11 @@
 import java.util.ArrayList;
 import java.util.List;
 
+// Associatie: Voortgang <-> Boek
+// Zonder deze associatie is het niet mogelijk om voortgang te registreren, controleren of berekeningen te doen op gelezen pagina's.
+
+
+
 public class Voortgang {
     private List<Boek> gelezenBoeken = new ArrayList<>(); // Lijst van gelezen boeken
 

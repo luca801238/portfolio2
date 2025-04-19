@@ -1,3 +1,7 @@
+// Associatie: Boek is een subtype van Item
+// User Story: Als gebruiker wil ik eenvoudig bijhouden welke boeken en tijdschriften ik heb gelezen zodat ik een overzicht heb van mijn leesgeschiedenis.
+// Deze associatie zorgt ervoor dat boeken dezelfde structuur en methodes delen als tijdschriften, en dus op dezelfde manier verwerkt kunnen worden.
+
 public class Boek extends Item {
     private int totaalPaginas; // total paginas
     private int gelezenPaginas; // gelezen paginas
