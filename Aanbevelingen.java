@@ -2,35 +2,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Aanbevelingen {
-    private List<String> voorkeuren = new ArrayList<>(); // Hier worden de voorkeuren opgeslagen
-    private List<String> likes = new ArrayList<>();
-    private List<Boek> alleBoeken = new ArrayList<>();
+    private List<String> voorkeuren = new ArrayList<>(); // Wordt gebruikt om aanbevelingen te filteren op genres die de gebruiker interessant vindt.
+    private List<String> likes = new ArrayList<>(); // Likes geven voorkeuren aan, wat toekomstige aanbevelingen kan beïnvloeden.
 
-    public Aanbevelingen() {
-        // Voorbeeldboeken met genre toegevoegd
-        alleBoeken.add(new Boek("Dune", "2025-04-01", "Sciencefiction"));
-        alleBoeken.add(new Boek("Foundation", "2025-04-01", "Sciencefiction"));
-        alleBoeken.add(new Boek("Pride and Prejudice", "2025-04-01", "Romantiek"));
-        alleBoeken.add(new Boek("The Hobbit", "2025-04-01", "Fantasy"));
-    }
+    // Alle functies hier zijn van dezelfde User Story.
+    // User Story: Als gebruiker wil ik boekentips krijgen op basis van mijn leesvoorkeuren zodat ik sneller boeken ontdek die bij mij passen.
 
-    // 6. Genereer aanbevelingen op basis van eerder gelezen boeken
-    public List<Boek> genereerAanbevelingen(List<Boek> gelezenBoeken) {
-        List<String> genres = new ArrayList<>();
+
+    // Genereer aanbevelingen op basis van eerder gelezen boeken
+    // Doet het belangrijkste van de User Story: geeft boekentips die passen bij wat de gebruiker leuk vindt.
+    public List<Boek> genereerAanbevelingen(List<Boek> gelezenBoeken, List<Boek> beschikbareBoeken) {
+        List<String> genresVanLezer = new ArrayList<>();
         List<String> gelezenTitels = new ArrayList<>();
 
         for (Boek boek : gelezenBoeken) {
-            if (!genres.contains(boek.getGenre())) {
-                genres.add(boek.getGenre());
+            if (boek.getGenre() != null && !genresVanLezer.contains(boek.getGenre())) {
+                genresVanLezer.add(boek.getGenre());
             }
-            if (!gelezenTitels.contains(boek.getTitel())) {
-                gelezenTitels.add(boek.getTitel());
-            }
+            gelezenTitels.add(boek.getTitel());
         }
 
         List<Boek> aanbevelingen = new ArrayList<>();
-        for (Boek boek : alleBoeken) {
-            if (genres.contains(boek.getGenre()) && !gelezenTitels.contains(boek.getTitel())) {
+        for (Boek boek : beschikbareBoeken) {
+            boolean zelfNogNietGelezen = !gelezenTitels.contains(boek.getTitel());
+            boolean pastBijLezer = genresVanLezer.contains(boek.getGenre()) || voorkeuren.contains(boek.getGenre());
+
+            if (zelfNogNietGelezen && pastBijLezer) {
                 aanbevelingen.add(boek);
             }
         }
@@ -38,7 +35,8 @@ public class Aanbevelingen {
         return aanbevelingen;
     }
 
-    // 7. Boek liken
+    //  Het liken van een boek
+    // Likes helpen voorkeuren bepalen: maakt aanbevelingen persoonlijker.
     public void likeBoek(Boek boek) {
         if (!likes.contains(boek.getGenre())) {
             likes.add(boek.getGenre());
@@ -46,7 +44,8 @@ public class Aanbevelingen {
         System.out.println("Je hebt " + boek.getTitel() + " geliked.");
     }
 
-    // 8. Voorkeur aanpassen
+    // Leesvoorkeur aanpassen
+    // Gebruiker kan voorkeuren zelf instellen: zorgt voor betere tips.
     public void pasVoorkeurAan(String nieuwGenre) {
         if (!voorkeuren.contains(nieuwGenre)) {
             voorkeuren.add(nieuwGenre);
@@ -56,7 +55,8 @@ public class Aanbevelingen {
         }
     }
 
-    // 9. Voorkeuren ophalen
+    // Leesvoorkeur ophalen
+    // Laat voorkeuren zien: zodat de gebruiker ze kan bekijken of aanpassen.
     public void haalVoorkeurenOp() {
         System.out.println(voorkeuren);
     }

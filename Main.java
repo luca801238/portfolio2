@@ -8,21 +8,17 @@ public class Main {
         Leesoverzicht leesoverzicht = new Leesoverzicht();
         Interface eenInterface = new Interface();
         Voortgang voortgang = new Voortgang();
+        List<Boek> tips = new ArrayList<>();
 
-        // sample data
 
-        Boek boek1 = new Boek("Dune", "2025-04-01", "Sciencefiction");
-        Boek boek2 = new Boek("The Hobbit", "2025-04-01", "Fantasy");
-        leesoverzicht.markeerAlsGelezen(boek1);
-        leesoverzicht.markeerAlsGelezen(boek2);
 
 
         while (true) {
             System.out.println("=== MENU ===");
-            System.out.println("[1] Aanbeveling");
-            System.out.println("[2] Leesoverzicht");
-            System.out.println("[3] Interface");
-            System.out.println("[4] Voortgang");
+            System.out.println("[1] Mijn aanbevelingen");
+            System.out.println("[2] Mijn Boeken");
+            System.out.println("[3] Mijn Bibliotheek");
+            System.out.println("[4] Mijn Voortgang");
             System.out.println("[5] Uitloggen");
             System.out.print("Kies een optie: ");
 
@@ -37,14 +33,31 @@ public class Main {
                 System.out.println("[5] Exit");
                 keuze = scanner.nextLine();
                 if (keuze.equals("1")) {
-                    List<Boek> tips = aanbevelingen.genereerAanbevelingen(Arrays.asList(boek1, boek2));
-                    for (Boek b : tips) {
-                        System.out.println("- " + b);
+                    List<Item> gelezenItems = leesoverzicht.toonLeesoverzicht();
+                    List<Boek> gelezenBoeken = new ArrayList<>();
+                    for (Item item : gelezenItems) {
+                        if (item instanceof Boek) {
+                            gelezenBoeken.add((Boek) item);
+                        }
                     }
+
+                    List<Boek> beschikbareBoeken = eenInterface.getBoekenLijst(); // boeken die toegevoegd zijn
+                    tips = aanbevelingen.genereerAanbevelingen(gelezenBoeken, beschikbareBoeken);
+
+                    if (tips.isEmpty()) {
+                        System.out.println("Geen aanbevelingen gevonden.");
+                    } else {
+                        System.out.println("📚 Aanbevolen boeken:");
+                        for (Boek b : tips) {
+                            System.out.println("- " + b.getTitel() + " (" + b.getGenre() + ")");
+                        }
+                    }
+
                 } else if (keuze.equals("2")) {
                     System.out.print("Titel van het boek dat je wil liken: ");
                     String like = scanner.nextLine();
-                    for (Boek b : aanbevelingen.genereerAanbevelingen(Arrays.asList(boek1, boek2))) {
+                    for (Boek b : tips) {
+
                         if (b.getTitel().equalsIgnoreCase(like)) {
                             aanbevelingen.likeBoek(b);
                         }
@@ -52,9 +65,9 @@ public class Main {
                 } else if (keuze.equals("3")) {
                     System.out.print("Voer een genre in: ");
                     String genre = scanner.nextLine();
-
                     aanbevelingen.pasVoorkeurAan(genre);
                 } else if (keuze.equals("4")){
+                    // misschien aanpassen want als genre voorkeeur null is dan print die []
                     aanbevelingen.haalVoorkeurenOp();
                 } else {
                     System.out.print("");
@@ -70,13 +83,18 @@ public class Main {
                 if (keuze.equals("1")) {
                     System.out.println("Voer de titel van het boek in dat je wilt markeren:");
                     String titel = scanner.nextLine();
-                    for (Boek b : Arrays.asList(boek1, boek2)) {
+                    for (Boek b : eenInterface.getBoekenLijst()) {
+
                         if (b.getTitel().equalsIgnoreCase(titel)) {
                             leesoverzicht.markeerAlsGelezen(b);
                         }
                     }
                 } else if (keuze.equals("2")) {
-                    leesoverzicht.toonLeesoverzicht();
+                    List<Item> overzicht = leesoverzicht.toonLeesoverzicht();
+                    for (Item item : overzicht) {
+                        System.out.println("- " + item);
+                    }
+
                 } else if (keuze.equals("3")) {
                     System.out.print("Filter op [Boek/Tijdschrift]:");
                     String filter = scanner.nextLine();
@@ -98,7 +116,8 @@ public class Main {
                 if (keuze.equals("1")) {
                     System.out.print("Voor welk boek wil je de voortgang berekenen?");
                     String titel = scanner.nextLine();
-                    for (Boek b : Arrays.asList(boek1, boek2)) {
+                    for (Boek b : eenInterface.getBoekenLijst()) {
+
                         if (b.getTitel().equalsIgnoreCase(titel)) {
                             double voortgangPercentage = eenInterface.berekenVoortgang(b);
                             System.out.println("Voortgang van \"" + b.getTitel() + "\": " + voortgangPercentage + "%");
@@ -108,8 +127,16 @@ public class Main {
                     System.out.print("Nieuw boek toevoegen. Titel: ");
                     String nieuweTitel = scanner.nextLine();
                     System.out.print("Aantal pagina’s: ");
-                    int paginas = scanner.nextInt();
-                    scanner.nextLine(); // Consume newline
+                    String input = scanner.nextLine();
+                    // try catch gebruiken want lastig
+                    int paginas = 0;
+                    try {
+                        paginas = Integer.parseInt(input);
+                    } catch (NumberFormatException e) {
+                        System.out.println("⚠️  Vul een geldig getal in voor aantal pagina's.");
+                    }
+
+                    scanner.nextLine();
                     Boek nieuwBoek = new Boek(nieuweTitel, paginas);
                     eenInterface.voegBoekToe(nieuwBoek);
                 } else if (keuze.equals("3")) {
@@ -126,7 +153,7 @@ public class Main {
                 if (keuze.equals("1")) {
                     System.out.println("Voor welk boek wil je de gelezen pagina's invoeren?");
                     String titel = scanner.nextLine();
-                    for (Boek b : Arrays.asList(boek1, boek2)) {
+                    for (Boek b : eenInterface.getBoekenLijst()) {
                         if (b.getTitel().equalsIgnoreCase(titel)) {
                             System.out.print("Aantal gelezen pagina's: ");
                             int gelezen = scanner.nextInt();

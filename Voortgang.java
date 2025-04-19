@@ -2,9 +2,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Voortgang {
-    private List<Boek> gelezenBoeken = new ArrayList<>();
+    private List<Boek> gelezenBoeken = new ArrayList<>(); // Lijst van gelezen boeken
 
-    // 16. Voer aantal gelezen pagina’s in
+    // Passende User Story:
+    // Als gebruiker wil ik mijn leesvoortgang eenvoudig kunnen bijhouden zodat ik een duidelijk overzicht heb van mijn vooruitgang.
+
+    // Voer aantal gelezen pagina’s in
+    // Deze methode stelt de gebruiker in staat om het aantal gelezen pagina's voor een boek bij te werken.
     public void voerGelezenPaginasIn(Boek boek, int paginas) {
         boek.setGelezenPaginas(paginas);
 
@@ -13,13 +17,14 @@ public class Voortgang {
         }
 
         if (checkBoekVoltooid(boek)) {
-            System.out.println("Gefeliciteerd! Je hebt \"" + boek.getTitel() + "\" uitgelezen.");
+            System.out.println("Gefeliciteerd! Je hebt " + boek.getTitel() + " uitgelezen.");
         } else {
             System.out.println("Voortgang bijgewerkt: " + paginas + "/" + boek.getTotaalPaginas() + " pagina's.");
         }
     }
 
-    // 17. Genereer maandelijkse terugblik
+    // Genereer maandelijkse terugblik
+    // Deze methode toont een terugblik op de boeken die in de opgegeven maand volledig zijn gelezen.
     public void genereerMaandelijkseTerugblik(String maandNaam) {
         System.out.println("\n📅 Terugblik voor " + maandNaam + ":");
 
@@ -34,7 +39,8 @@ public class Voortgang {
         System.out.println("Totaal gelezen pagina’s: " + totaalPaginas);
     }
 
-    // 18. Controleer of boek uit is
+    // Controleer of boek uit is
+    // Deze methode controleert of een boek volledig is gelezen.
     public boolean checkBoekVoltooid(Boek boek) {
         return boek.getGelezenPaginas() == boek.getTotaalPaginas();
     }
