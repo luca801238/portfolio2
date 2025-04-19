@@ -7,11 +7,16 @@ public class Boek extends Item {
     private int gelezenPaginas; // gelezen paginas
     private String genre; // genre boek
 
-    // constructor voor boek die titel, gelezen op en genre aanmaakt
-    public Boek(String titel, String gelezenOp, String genre) {
-        super(titel, gelezenOp);
+
+    // nieuwe constructor die alles bevat
+    public Boek(String titel, int totaalPaginas, String genre) {
+        super(titel, null); // geen gelezenOp nodig op dit moment
+        this.totaalPaginas = totaalPaginas;
+        this.gelezenPaginas = 0;
         this.genre = genre;
     }
+
+
     // constructor voor aanmaken van een boek met titel en paginas
     public Boek(String titel, int totaalPaginas) {
         super(titel, null);

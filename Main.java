@@ -57,9 +57,9 @@ public class Main {
                     tips = aanbevelingen.genereerAanbevelingen(gelezenBoeken, beschikbareBoeken);
 
                     if (tips.isEmpty()) {
-                        System.out.println("Geen aanbevelingen gevonden.");
+                        System.out.println("Geen aanbevelingen gevonden. (je hebt geen boeken / genre toegevoegd)");
                     } else {
-                        System.out.println("📚 Aanbevolen boeken:");
+                        System.out.println("Aanbevolen boeken:");
                         for (Boek b : tips) {
                             System.out.println("- " + b.getTitel() + " (" + b.getGenre() + ")");
                         }
@@ -132,25 +132,50 @@ public class Main {
 
                         if (b.getTitel().equalsIgnoreCase(titel)) {
                             double voortgangPercentage = eenInterface.berekenVoortgang(b);
-                            System.out.println("Voortgang van \"" + b.getTitel() + "\": " + voortgangPercentage + "%");
+                            System.out.println("Voortgang van \"" + b.getTitel() + "\": " + String.format("%.2f", voortgangPercentage) + "%");
                         }
                     }
                 } else if (keuze.equals("2")) {
-                    System.out.print("Nieuw boek toevoegen. Titel: ");
-                    String nieuweTitel = scanner.nextLine();
-                    System.out.print("Aantal pagina’s: ");
-                    String input = scanner.nextLine();
-                    // try catch gebruiken want lastig
-                    int paginas = 0;
-                    try {
-                        paginas = Integer.parseInt(input);
-                    } catch (NumberFormatException e) {
-                        System.out.println("⚠️  Vul een geldig getal in voor aantal pagina's.");
-                    }
+                    System.out.print("Welk type wil je toevoegen? (Boek/Tijdschrift): ");
+                    String type = scanner.nextLine();
+                    eenInterface.toonInvoerFormulier(type);
 
-                    scanner.nextLine();
-                    Boek nieuwBoek = new Boek(nieuweTitel, paginas);
-                    eenInterface.voegBoekToe(nieuwBoek);
+                    if (type.equalsIgnoreCase("Boek")) {
+                        System.out.print("Titel: ");
+                        String titel = scanner.nextLine();
+
+                        System.out.print("Aantal pagina’s: ");
+                        String paginasInput = scanner.nextLine();
+                        int paginas = 0;
+                        try {
+                            paginas = Integer.parseInt(paginasInput);
+                        } catch (NumberFormatException e) {
+                            System.out.println("Vul een geldig getal in voor aantal pagina's.");
+                            return;
+                        }
+
+                        System.out.print("Genre: ");
+                        String genre = scanner.nextLine();
+
+                        Boek nieuwBoek = new Boek(titel, paginas, genre);
+                        eenInterface.voegBoekToe(nieuwBoek);
+
+                    } else if (type.equalsIgnoreCase("Tijdschrift")) {
+                        System.out.print("Titel: ");
+                        String titel = scanner.nextLine();
+
+                        System.out.print("Editie: ");
+                        String editie = scanner.nextLine();
+
+                        System.out.print("Datum gelezen (bv. 2025-04-19): ");
+                        String gelezenOp = scanner.nextLine();
+
+                        Tijdschrift tijdschrift = new Tijdschrift(titel, editie, gelezenOp);
+                        leesoverzicht.markeerAlsGelezen(tijdschrift); // of ergens opslaan
+                        System.out.println("Tijdschrift toegevoegd aan leesoverzicht.");
+                    } else {
+                        System.out.println("Ongeldig type. Alleen 'Boek' of 'Tijdschrift' toegestaan.");
+                    }
                 } else if (keuze.equals("3")) {
                     eenInterface.getBoeken();
                 } else {
@@ -169,8 +194,11 @@ public class Main {
                         if (b.getTitel().equalsIgnoreCase(titel)) {
                             System.out.print("Aantal gelezen pagina's: ");
                             int gelezen = scanner.nextInt();
-                            scanner.nextLine(); // Consume newline
-                            voortgang.voerGelezenPaginasIn(b, gelezen);
+                            if (gelezen > b.getTotaalPaginas()) {
+                                System.out.println("⚠️ Dat zijn meer pagina’s dan het boek bevat (" + b.getTotaalPaginas() + ").");
+                            } else {
+                                voortgang.voerGelezenPaginasIn(b, gelezen);
+                            }
                         }
                     }
                 } else if (keuze.equals("2")) {
