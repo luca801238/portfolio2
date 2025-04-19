@@ -23,29 +23,39 @@ public class AlgemeneTest {
 
         assertTrue(resultaat.contains(match));
         assertFalse(resultaat.contains(geenMatch));
+        System.out.println("Test voltooid.");
     }
 
-    // test of boek is voltooid op basis van gelezen paginas
+    // test maandelijkse terugblik
     @Test
-    public void testBoekVoltooidWanneerAllePaginasGelezen() {
-        Voortgang voortgang = new Voortgang();
-        Boek boek = new Boek("1984", 200, "Dystopie");
+    public void testMaandelijkseTerugblikFilter() {
+        Leesoverzicht overzicht = new Leesoverzicht();
+        Tijdschrift tijdschrift = new Tijdschrift("Editie Y", "2025", null);
+        overzicht.markeerAlsGelezen(tijdschrift); // zet datum automatisch
 
-        voortgang.voerGelezenPaginasIn(boek, 200);
+        // Simuleer dat het op deze dag is gelezen
+        tijdschrift.setGelezenOp("2025-04-01");
 
-        assertTrue(voortgang.checkBoekVoltooid(boek));
+        List<Item> gelezen = overzicht.getGelezenItems();
+        boolean gevonden = gelezen.stream()
+                .anyMatch(item -> item.getGelezenOp().startsWith("2025-04"));
+
+        assertTrue(gevonden);
+        System.out.println("Test voltooid.");
     }
+
 
     // test of het filteren van boeken en tijdschriften werkt
     @Test
     public void testFilterOpBoek() {
         Leesoverzicht overzicht = new Leesoverzicht();
         overzicht.markeerAlsGelezen(new Boek("Boek A", 300, "Fantasy"));
-        overzicht.markeerAlsGelezen(new Tijdschrift("Editie X", "2024", "2025-04-01"));
+        overzicht.markeerAlsGelezen(new Tijdschrift("Editie X", "2024", null));
 
         List<Item> alleenBoeken = overzicht.filterLeesoverzicht("Boek");
 
         assertEquals(1, alleenBoeken.size());
         assertEquals("Boek A", alleenBoeken.get(0).getTitel());
+        System.out.println("Test voltooid.");
     }
 }
