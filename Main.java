@@ -165,7 +165,7 @@ public class Main {
             } else if (keuze.equals("3")) {
                 System.out.println("=== MENU ===");
                 System.out.println("[1] Voortgang berekenen");
-                System.out.println("[2] Boek toevoegen");
+                System.out.println("[2] Item toevoegen");
                 System.out.println("[3] Boeken tonen");
                 System.out.println("[4] Exit");
                 keuze = scanner.nextLine();
