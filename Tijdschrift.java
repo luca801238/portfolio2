@@ -13,10 +13,6 @@ public class Tijdschrift extends Item {
         this.editie = editie;
     }
 
-    // getter voor editie
-    public String getEditie() {
-        return editie;
-    }
     // override van getType om tijdschrift te retourneren
     @Override
     public String getType() {

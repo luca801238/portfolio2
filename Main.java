@@ -20,7 +20,6 @@ public class Main {
         Leesoverzicht leesoverzicht = new Leesoverzicht();
         Interface eenInterface = new Interface();
         Voortgang voortgang = new Voortgang();
-        List<Boek> tips = new ArrayList<>();
 
 
 
@@ -42,45 +41,57 @@ public class Main {
                 System.out.println("[2] Een boek liken");
                 System.out.println("[3] Leesvoorkeur aanpassen");
                 System.out.println("[4] Leesvoorkeur ophalen");
-                System.out.println("[5] Exit");
+                System.out.println("[5] Gelikede boeken ophalen");
+                System.out.println("[6] Exit");
                 keuze = scanner.nextLine();
                 if (keuze.equals("1")) {
-                    List<Item> gelezenItems = leesoverzicht.toonLeesoverzicht();
-                    List<Boek> gelezenBoeken = new ArrayList<>();
-                    for (Item item : gelezenItems) {
-                        if (item instanceof Boek) {
-                            gelezenBoeken.add((Boek) item);
-                        }
-                    }
+                    System.out.println("Voer een boek in dat je wilt controleren:");
+                    System.out.print("Titel: ");
+                    String titel = scanner.nextLine();
 
-                    List<Boek> beschikbareBoeken = eenInterface.getBoekenLijst(); // boeken die toegevoegd zijn
-                    tips = aanbevelingen.genereerAanbevelingen(gelezenBoeken, beschikbareBoeken);
+                    System.out.print("Genre: ");
+                    String genre = scanner.nextLine();
 
-                    if (tips.isEmpty()) {
-                        System.out.println("Geen aanbevelingen gevonden. (je hebt geen boeken / genre toegevoegd)");
+                    Boek boek = new Boek(titel, 100, genre); // Pagina's zijn hier niet relevant
+
+                    if (aanbevelingen.getVoorkeuren().contains(genre)) {
+                        System.out.println("" + boek.getTitel() + " wordt aanbevolen op basis van je voorkeuren.");
                     } else {
-                        System.out.println("Aanbevolen boeken:");
-                        for (Boek b : tips) {
-                            System.out.println("- " + b.getTitel() + " (" + b.getGenre() + ")");
-                        }
+                        System.out.println("" + boek.getTitel() + " valt niet binnen je leesvoorkeuren (kijkt naar je favoriete genre).");
                     }
 
                 } else if (keuze.equals("2")) {
                     System.out.print("Titel van het boek dat je wil liken: ");
                     String like = scanner.nextLine();
-                    for (Boek b : tips) {
+                    boolean gevonden = false;
 
+                    for (Boek b : eenInterface.getBoekenLijst()) {
                         if (b.getTitel().equalsIgnoreCase(like)) {
                             aanbevelingen.likeBoek(b);
+                            gevonden = true;
+                            break;
                         }
+                    }
+
+                    if (!gevonden) {
+                        System.out.println("Boek niet gevonden in je bibliotheek.");
                     }
                 } else if (keuze.equals("3")) {
                     System.out.print("Voer een genre in: ");
                     String genre = scanner.nextLine();
                     aanbevelingen.pasVoorkeurAan(genre);
-                } else if (keuze.equals("4")){
-                    // misschien aanpassen want als genre voorkeeur null is dan print die []
+                } else if (keuze.equals("4")) {
                     aanbevelingen.haalVoorkeurenOp();
+                } else if (keuze.equals("5")) {
+                    List<Boek> gelikedeBoeken = aanbevelingen.getGelikedeBoeken();
+                    if (gelikedeBoeken.isEmpty()) {
+                        System.out.println("Je hebt nog geen boeken geliket.");
+                    } else {
+                        System.out.println("Je hebt deze boeken geliket:");
+                        for (Boek b : gelikedeBoeken) {
+                            System.out.println("- " + b.getTitel());
+                        }
+                    }
                 } else {
                     System.out.print("");
                 }
@@ -88,32 +99,65 @@ public class Main {
             } else if (keuze.equals("2")) {
                 System.out.println("=== MENU ===");
                 System.out.println("[1] Een boek als gelezen markeren");
-                System.out.println("[2] Leesoverzicht tonen");
-                System.out.println("[3] Leesoverzicht filteren");
-                System.out.println("[4] Exit");
+                System.out.println("[2] Een tijdschrift als gelezen markeren");
+                System.out.println("[3] Gelezen items ophalen");
+                System.out.println("[4] Gelezen items filteren");
+                System.out.println("[5] Exit");
                 keuze = scanner.nextLine();
                 if (keuze.equals("1")) {
-                    System.out.println("Voer de titel van het boek in dat je wilt markeren:");
+                    System.out.print("Titel van het boek dat je als gelezen wilt markeren: ");
                     String titel = scanner.nextLine();
-                    for (Boek b : eenInterface.getBoekenLijst()) {
+                    boolean gevonden = false;
 
+                    for (Boek b : eenInterface.getBoekenLijst()) { // Alleen boeken die je hebt toegevoegd
                         if (b.getTitel().equalsIgnoreCase(titel)) {
                             leesoverzicht.markeerAlsGelezen(b);
+                            System.out.println(" " + b.getTitel() + " is gemarkeerd als gelezen.");
+                            gevonden = true;
+                            break;
                         }
                     }
-                } else if (keuze.equals("2")) {
-                    List<Item> overzicht = leesoverzicht.toonLeesoverzicht();
-                    for (Item item : overzicht) {
-                        System.out.println("- " + item);
+
+                    if (!gevonden) {
+                        System.out.println("Boek niet gevonden. Voeg het eerst toe via 'Mijn Bibliotheek > Boek toevoegen'.");
                     }
 
+                } else if (keuze.equals("2")){
+                    System.out.print("Titel van het tijdschrift dat je als gelezen wilt markeren: ");
+                    String titel = scanner.nextLine();
+                    boolean gevonden = false;
+
+                    for (Tijdschrift t : eenInterface.getTijdschriftenLijst()) {
+                        if (t.getTitel().equalsIgnoreCase(titel)) {
+                            leesoverzicht.markeerAlsGelezen(t);
+                            System.out.println("Tijdschrift " + t.getTitel() + " is gemarkeerd als gelezen.");
+                            gevonden = true;
+                            break;
+                        }
+                    }
+
+                    if (!gevonden) {
+                        System.out.println("Tijdschrift niet gevonden. Voeg het eerst toe via 'Mijn Bibliotheek > Boek toevoegen'.");
+                    }
                 } else if (keuze.equals("3")) {
+                    List<Item> gelezen = leesoverzicht.getGelezenItems();
+                    if (gelezen.isEmpty()) {
+                        System.out.println("Je hebt nog geen gelezen boeken of tijdschriften.");
+                    } else {
+                        System.out.println("Gelezen items:");
+                        for (Item item : gelezen) {
+                            System.out.println("- " + item);
+                        }
+                    }
+
+                } else if (keuze.equals("4")) {
                     System.out.print("Filter op [Boek/Tijdschrift]:");
                     String filter = scanner.nextLine();
                     List<Item> gefilterd = leesoverzicht.filterLeesoverzicht(filter);
                     for (Item item : gefilterd) {
                         System.out.println("- " + item);
                     }
+
                 } else {
                     System.out.print("");
                 }
@@ -132,7 +176,7 @@ public class Main {
 
                         if (b.getTitel().equalsIgnoreCase(titel)) {
                             double voortgangPercentage = eenInterface.berekenVoortgang(b);
-                            System.out.println("Voortgang van \"" + b.getTitel() + "\": " + String.format("%.2f", voortgangPercentage) + "%");
+                            System.out.println("Voortgang van " + b.getTitel() + ": " + String.format("%.2f", voortgangPercentage) + "%");
                         }
                     }
                 } else if (keuze.equals("2")) {
@@ -161,6 +205,8 @@ public class Main {
                         eenInterface.voegBoekToe(nieuwBoek);
 
                     } else if (type.equalsIgnoreCase("Tijdschrift")) {
+
+
                         System.out.print("Titel: ");
                         String titel = scanner.nextLine();
 
@@ -171,8 +217,9 @@ public class Main {
                         String gelezenOp = scanner.nextLine();
 
                         Tijdschrift tijdschrift = new Tijdschrift(titel, editie, gelezenOp);
-                        leesoverzicht.markeerAlsGelezen(tijdschrift); // of ergens opslaan
-                        System.out.println("Tijdschrift toegevoegd aan leesoverzicht.");
+                        eenInterface.voegTijdschriftToe(tijdschrift);
+                        System.out.println("Tijdschrift toegevoegd: " + tijdschrift.getTitel());
+
                     } else {
                         System.out.println("Ongeldig type. Alleen 'Boek' of 'Tijdschrift' toegestaan.");
                     }
@@ -195,16 +242,31 @@ public class Main {
                             System.out.print("Aantal gelezen pagina's: ");
                             int gelezen = scanner.nextInt();
                             if (gelezen > b.getTotaalPaginas()) {
-                                System.out.println("⚠️ Dat zijn meer pagina’s dan het boek bevat (" + b.getTotaalPaginas() + ").");
+                                System.out.println("Dat zijn meer pagina’s dan het boek bevat (" + b.getTotaalPaginas() + ").");
                             } else {
                                 voortgang.voerGelezenPaginasIn(b, gelezen);
                             }
                         }
                     }
                 } else if (keuze.equals("2")) {
-                    System.out.print("Maand voor terugblik: ");
+                    System.out.print("Voor welke maand wil je de terugblik? (formaat: yyyy-MM): ");
                     String maand = scanner.nextLine();
-                    voortgang.genereerMaandelijkseTerugblik(maand);
+
+                    List<Item> gelezen = leesoverzicht.getGelezenItems();
+                    boolean ietsGevonden = false;
+
+                    System.out.println("Gelezen in " + maand + ":");
+
+                    for (Item item : gelezen) {
+                        if (item.getGelezenOp() != null && item.getGelezenOp().startsWith(maand)) {
+                            System.out.println("- " + item.getTitel() + " (" + item.getClass().getSimpleName() + ")");
+                            ietsGevonden = true;
+                        }
+                    }
+
+                    if (!ietsGevonden) {
+                        System.out.println("Geen items gelezen in deze maand.");
+                    }
                 } else {
                     System.out.print("");
                 }

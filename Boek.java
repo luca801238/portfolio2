@@ -16,13 +16,6 @@ public class Boek extends Item {
         this.genre = genre;
     }
 
-
-    // constructor voor aanmaken van een boek met titel en paginas
-    public Boek(String titel, int totaalPaginas) {
-        super(titel, null);
-        this.totaalPaginas = totaalPaginas;
-        this.gelezenPaginas = 0;
-    }
     // setter voor gelezen paginas
     public void setGelezenPaginas(int gelezen) {
         this.gelezenPaginas = gelezen;

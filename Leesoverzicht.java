@@ -15,15 +15,19 @@ public class Leesoverzicht {
     // Markeer als gelezen
     // Deze functie voegt een item toe aan de lijst van gelezen items.
     public void markeerAlsGelezen(Item item) {
-        gelezenItems.add(item);
-        System.out.println("Gelezen item toegevoegd: " + item.getTitel());
+        if (!gelezenItems.contains(item)) {
+            // Vul gelezenOp met de huidige datum
+            String vandaag = java.time.LocalDate.now().toString(); // bv. 2025-04-20
+            item.setGelezenOp(vandaag);
+            gelezenItems.add(item);
+        }
     }
 
-    // Toon alles
-    // Toont een lijst van alle gelezen items.
-    public List<Item> toonLeesoverzicht() {
+    // getter voor gelezen items
+    public List<Item> getGelezenItems() {
         return gelezenItems;
     }
+
 
     // Filter op type
     // Toont een lijst van gelezen items die overeenkomen met het opgegeven type.

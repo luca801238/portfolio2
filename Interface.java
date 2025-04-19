@@ -17,6 +17,16 @@ public class Interface {
         if (boek.getTotaalPaginas() == 0) return 0;
         return ((double) boek.getGelezenPaginas() / boek.getTotaalPaginas()) * 100;
     }
+    // tijdschriften lijst
+    private List<Tijdschrift> tijdschriften = new ArrayList<>();
+    // tijdschriften toevoegen methode
+    public void voegTijdschriftToe(Tijdschrift t) {
+        tijdschriften.add(t);
+    }
+    // tijdschriften ophalen methode
+    public List<Tijdschrift> getTijdschriftenLijst() {
+        return tijdschriften;
+    }
 
     // Voeg boek toe
     // Voegt een nieuw boek toe aan de lijst van boeken.

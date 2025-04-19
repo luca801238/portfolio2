@@ -20,6 +20,11 @@ public class Item {
     public String getGelezenOp() {
         return gelezenOp;
     }
+    // gelezen op tijd setter
+    public void setGelezenOp(String gelezenOp) {
+        this.gelezenOp = gelezenOp;
+    }
+
     // getter voor type
     public String getType() {
         return "Item";
